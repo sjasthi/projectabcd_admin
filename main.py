@@ -53,7 +53,7 @@ def buildPresentation():
         printFact = fact.text
         printWords = printDescription + printFact
 
-        if(slideOption ==1 ):
+        if(slideOption == 1 ):
              slide_layout = prs.slide_layouts[6]
              slide = prs.slides.add_slide(slide_layout)
              prs.slide_width = pptx.util.Inches(8)
@@ -89,33 +89,27 @@ def buildPresentation():
              FunFactParagraph.text = printFact
         elif(slideOption == 2):
              slide_layout = prs.slide_layouts[6]
-             prs.slide_width = pptx.util.Inches(12)
-             prs.slide_height = pptx.util.Inches(9)
+             prs.slide_width = pptx.util.Inches(8)
+             prs.slide_height = pptx.util.Inches(11)
              if(i == 0):
                   slide1 = prs.slides.add_slide(slide_layout)
-                  titleBox = slide1.shapes.add_textbox(pptx.util.Inches(3.5), pptx.util.Inches(3.5),width=pptx.util.Inches(5), height=pptx.util.Inches(2))
+                  titleBox = slide1.shapes.add_textbox(pptx.util.Inches(1.5), pptx.util.Inches(4.5),width=pptx.util.Inches(5), height=pptx.util.Inches(2))
                   titleBoxtf = titleBox.text_frame
                   title = titleBoxtf.add_paragraph()
                   title.text = "Project abcd"
-                  title.font.size = Pt(titleSize)
+                  title.font.size = Pt(60)
                   title.font.name = titleFont
              slide = prs.slides.add_slide(slide_layout)
-             titleBox = slide.shapes.add_textbox(pptx.util.Inches(3.5), pptx.util.Inches(.5), width=pptx.util.Inches(3),height=pptx.util.Inches(1))
-             titleBoxtf = titleBox.text_frame
-             title = titleBoxtf.add_paragraph()
-             title.text = printName
-             title.font.name = titleFont
-             title.font.size = Pt(titleSize)
              pictureHolder = prs.slides[pictureSlide].shapes
-             pictureHolder.add_picture(basename(printImage), pptx.util.Inches(4), pptx.util.Inches(2),width=pptx.util.Inches(4), height=pptx.util.Inches(5))
+             pictureHolder.add_picture(basename(printImage), pptx.util.Inches(0), pptx.util.Inches(0),width=pptx.util.Inches(8), height=pptx.util.Inches(11))
              slide2 = prs.slides.add_slide(slide_layout)
-             titleBox = slide2.shapes.add_textbox(pptx.util.Inches(3.5), pptx.util.Inches(.5), width=pptx.util.Inches(3),height=pptx.util.Inches(1))
+             titleBox = slide2.shapes.add_textbox(pptx.util.Inches(2), pptx.util.Inches(.5), width=pptx.util.Inches(4),height=pptx.util.Inches(1))
              titleBoxtf = titleBox.text_frame
              title = titleBoxtf.add_paragraph()
              title.text = printName
              title.font.size = Pt(titleSize)
              title.font.name = titleFont
-             contentBox = slide2.shapes.add_textbox(pptx.util.Inches(3), pptx.util.Inches(2), width=pptx.util.Inches(6),height=pptx.util.Inches(5))
+             contentBox = slide2.shapes.add_textbox(pptx.util.Inches(1), pptx.util.Inches(2), width=pptx.util.Inches(6),height=pptx.util.Inches(7))
              contentBoxtf = contentBox.text_frame
              contentBoxtf.word_wrap = True
              descriptionTitle = contentBoxtf.add_paragraph()
@@ -139,25 +133,25 @@ def buildPresentation():
              pictureSlide = pictureSlide + 2
         elif (slideOption == 3):
              slide_layout = prs.slide_layouts[6]
-             prs.slide_width = pptx.util.Inches(12)
-             prs.slide_height = pptx.util.Inches(9)
-             slide3 = prs.slides.add_slide(slide_layout)
-             titleBox3 = slide3.shapes.add_textbox(pptx.util.Inches(3.5), pptx.util.Inches(.5),width=pptx.util.Inches(3), height=pptx.util.Inches(1))
+             prs.slide_width = pptx.util.Inches(8)
+             prs.slide_height = pptx.util.Inches(11)
+             slide2 = prs.slides.add_slide(slide_layout)
+             titleBox3 = slide2.shapes.add_textbox(pptx.util.Inches(1.5), pptx.util.Inches(4.5),width=pptx.util.Inches(5), height=pptx.util.Inches(2))
              titleBox3tf = titleBox3.text_frame
              title3 = titleBox3tf.add_paragraph()
              title3.text = printName
              title3.font.name = titleFont
              title3.font.size = Pt(titleSize)
              pictureHolder = prs.slides[pictureSlide].shapes
-             pictureHolder.add_picture(basename(printImage), pptx.util.Inches(4), pptx.util.Inches(2),width=pptx.util.Inches(4), height=pptx.util.Inches(5))
-             slide2 = prs.slides.add_slide(slide_layout)
-             titleBox = slide2.shapes.add_textbox(pptx.util.Inches(3.5), pptx.util.Inches(.5),width=pptx.util.Inches(3), height=pptx.util.Inches(1))
+             pictureHolder.add_picture(basename(printImage), pptx.util.Inches(0), pptx.util.Inches(0),width=pptx.util.Inches(8), height=pptx.util.Inches(11))
+             slide3 = prs.slides.add_slide(slide_layout)
+             titleBox = slide3.shapes.add_textbox(pptx.util.Inches(4), pptx.util.Inches(.5),width=pptx.util.Inches(4), height=pptx.util.Inches(1))
              titleBoxtf = titleBox.text_frame
              title = titleBoxtf.add_paragraph()
              title.text = printName
              title.font.size = Pt(titleSize)
              title.font.name = titleFont
-             contentBox = slide2.shapes.add_textbox(pptx.util.Inches(3), pptx.util.Inches(2), width=pptx.util.Inches(6),height=pptx.util.Inches(5))
+             contentBox = slide3.shapes.add_textbox(pptx.util.Inches(1), pptx.util.Inches(2), width=pptx.util.Inches(6),height=pptx.util.Inches(7))
              contentBoxtf = contentBox.text_frame
              contentBoxtf.word_wrap = True
              descriptionTitle = contentBoxtf.add_paragraph()
