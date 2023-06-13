@@ -51,8 +51,3 @@ Basically, it backs up the database, wipes out the database, and reloads the dat
 
 
 
-
-
-
-http://localhost/abcd2 pages
-(or you ca 
