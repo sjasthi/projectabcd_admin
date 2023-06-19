@@ -67,13 +67,11 @@ def buildPresentation(data):
         
         
         
-        image_url = data[i][8]  # Assuming the image URL is stored in the 9th column
+        image_url = data[i][8]  
         if image_url:
             image_path = os.path.basename(image_url)
             slide.shapes.add_picture(image_path, pptx.util.Inches(0), pptx.util.Inches(0),width=pptx.util.Inches(8), height=pptx.util.Inches(11))
         
-
-    # Save the PowerPoint presentation
     test = "dbTest.pptx"
     prs.save(test)
     return test
