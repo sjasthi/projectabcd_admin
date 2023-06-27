@@ -4,6 +4,7 @@ import os
 import pptx.util
 from pptx.util import Pt
 
+
 conn = mysql.connector.connect(user='root', host='localhost', database='abcd_dress-500')
 cursor = conn.cursor()
 
@@ -15,6 +16,7 @@ def buildPresentation(data):
     start = int(input("Enter the slide to start with: "))
     end = int(input("Enter the slide to end with: "))
     print("Creating PowerPoint slides.")
+    
 
     with open("preferences.txt", "r") as f:
         slideOption = int(f.readline().split("= ")[1])
@@ -42,7 +44,7 @@ def buildPresentation(data):
         title.font.name = titleFont
         title.font.size = Pt(titleSize)
         title.font.name = titleFont
-        title.text = str(data[i][1]) 
+        title.text = str(data[start + i][1]) 
         
         contentBoxtf = contentBox.text_frame
         contentBoxtf.word_wrap = True
@@ -54,7 +56,7 @@ def buildPresentation(data):
         descriptionParagraph = contentBoxtf.add_paragraph()
         descriptionParagraph.font.name = textFont
         descriptionParagraph.font.size = Pt(textSize)
-        descriptionParagraph.text = str(data[i][2])
+        descriptionParagraph.text = str(start + i)
         FunFactTitle = contentBoxtf.add_paragraph()
         FunFactTitle.font.bold = True
         FunFactTitle.font.name = textFont
@@ -63,11 +65,11 @@ def buildPresentation(data):
         FunFactParagraph = contentBoxtf.add_paragraph()
         FunFactParagraph.font.name = textFont
         FunFactParagraph.font.size = Pt(textSize)
-        FunFactParagraph.text = str(data[i][3])
+        FunFactParagraph.text = str(start + i)
         
         
         
-        image_url = data[i][8]  
+        image_url = str[start + i][0]  
         if image_url:
             image_path = os.path.basename(image_url)
             slide.shapes.add_picture(image_path, pptx.util.Inches(0), pptx.util.Inches(0),width=pptx.util.Inches(8), height=pptx.util.Inches(11))
