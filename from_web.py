@@ -3,7 +3,7 @@ import shutil
 from os.path import basename
 from collections.abc import Container
 import pptx.util
-from pptx import Presentation
+from pptx import Presentation 
 from pptx.util import Pt
 from bs4 import BeautifulSoup
 import requests
@@ -16,6 +16,7 @@ def buildPresentation():
    start = int(input("Enter the slide to start with: "))
    end = int(input("Enter the slide to end with: "))
    print("Creating powerpoint slides.")
+   
    #reads preferences text file to get slide orientation option, font, and text size options
    with open("preferences.txt", "r") as f:
         slideOption = f.readline().split("= ")

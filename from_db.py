@@ -1,12 +1,15 @@
 from pptx import Presentation
 import mysql.connector
 import os
+import collections
 import pptx.util
 from pptx.util import Pt
+from pptx.api import Presentation
 
 
 conn = mysql.connector.connect(user='root', host='localhost', database='abcd_dress-500')
 cursor = conn.cursor()
+
 
 sql = "SELECT * FROM dresses"
 cursor.execute(sql)
@@ -16,7 +19,6 @@ def buildPresentation(data):
     start = int(input("Enter the slide to start with: "))
     end = int(input("Enter the slide to end with: "))
     print("Creating PowerPoint slides.")
-    
 
     with open("preferences.txt", "r") as f:
         slideOption = int(f.readline().split("= ")[1])
@@ -27,8 +29,9 @@ def buildPresentation(data):
 
     prs = Presentation()
     presentationLength = end - start + 1
+    start = start -1
 
-    for i in range(presentationLength):
+    for i in range(0,presentationLength):
         
         slide = prs.slides.add_slide(prs.slide_layouts[6]) 
         slide2 = prs.slides.add_slide(prs.slide_layouts[6])
@@ -56,7 +59,7 @@ def buildPresentation(data):
         descriptionParagraph = contentBoxtf.add_paragraph()
         descriptionParagraph.font.name = textFont
         descriptionParagraph.font.size = Pt(textSize)
-        descriptionParagraph.text = str(start + i)
+        descriptionParagraph.text = str(data[start + i][2])
         FunFactTitle = contentBoxtf.add_paragraph()
         FunFactTitle.font.bold = True
         FunFactTitle.font.name = textFont
@@ -65,11 +68,11 @@ def buildPresentation(data):
         FunFactParagraph = contentBoxtf.add_paragraph()
         FunFactParagraph.font.name = textFont
         FunFactParagraph.font.size = Pt(textSize)
-        FunFactParagraph.text = str(start + i)
+        FunFactParagraph.text = str(data[start + i][3])
         
         
         
-        image_url = str[start + i][0]  
+        image_url = data[start + i][8]  
         if image_url:
             image_path = os.path.basename(image_url)
             slide.shapes.add_picture(image_path, pptx.util.Inches(0), pptx.util.Inches(0),width=pptx.util.Inches(8), height=pptx.util.Inches(11))
