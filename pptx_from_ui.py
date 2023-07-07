@@ -89,12 +89,23 @@ window.mainloop()
 
 all_pages = []  
 with open("slide_numbers.txt" , "w") as file:
-   chosen_nums = pages.split(",")
-   
+   chosen_nums = pages
    for word in chosen_nums:
-       all_pages.append(word)
        file.write(word + "\n")
 file.close
+
+with open("slide_numbers.txt" , "r") as f:
+    tokens = chosen_nums.split(",")
+    for elem in tokens:
+        if '-' in elem:
+            token_parts = elem.split("-")
+            first_token = int(token_parts[0])
+            last_token = int(token_parts[1])
+            for x in range(first_token, last_token + 1):
+                all_pages.append(x)
+        else:
+            all_pages.append(elem)
+        print("all values of all_pages: " + str(all_pages))
 
 if(methods == "Web"):
     def buildPresentation():  
