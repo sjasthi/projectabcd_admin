@@ -197,19 +197,18 @@ if(methods == "Web"):
                 prs.slide_height = pptx.util.Inches(11)
                 #creates a title page
                 if(i == 0):
-                    slide1 = prs.slides.add_slide(slide_layout)
-                    titleBox = slide1.shapes.add_textbox(pptx.util.Inches(2.5), pptx.util.Inches(1.5),width=pptx.util.Inches(3), height=pptx.util.Inches(2))
+                    slide = prs.slides.add_slide(slide_layout)
+                    titleBox = slide.shapes.add_textbox(pptx.util.Inches(2.5), pptx.util.Inches(1.5),width=pptx.util.Inches(3), height=pptx.util.Inches(2))
                     titleBoxtf = titleBox.text_frame
                     title = titleBoxtf.add_paragraph()
                     title.text = "Project abcd abdul"
-                    title.font.size = Pt(60)
+                    title.font.size = Pt(50)
                     title.font.name = titleFont
                 slide = prs.slides.add_slide(slide_layout)
                 #places the picture to cover the whole slide
-                pictureHolder = prs.slides[pictureSlide].shapes
-                pictureHolder.add_picture(basename(printImage), pptx.util.Inches(3), pptx.util.Inches(2), width=pptx.util.Inches(4), height=pptx.util.Inches(6))
+                pictureHolder = prs.slides[i+1].shapes
+                pictureHolder.add_picture(basename(printImage), pptx.util.Inches(4), pptx.util.Inches(2), width=pptx.util.Inches(4), height=pptx.util.Inches(6))
                                 #creates next slide
-                slide1 = prs.slides.add_slide(slide_layout)
                 #places the logo on the slide
                 logoHolder = slide.shapes.add_picture(basename(printLogo), pptx.util.Inches(7), pptx.util.Inches(0),width=pptx.util.Inches(1), height=pptx.util.Inches(1))
                 #places title on the slide
@@ -241,51 +240,52 @@ if(methods == "Web"):
                 FunFactParagraph.font.name = textFont
                 FunFactParagraph.font.size = Pt(textSize)
                 FunFactParagraph.text = printFact
-                pictureSlide = pictureSlide + 2
+                
             #creates the slide presentation if slide option 3 is chosen
             elif (slideOption == 3):
-                #creates slide preferences
-                slide_layout = prs.slide_layouts[6]
-                prs.slide_width = pptx.util.Inches(8)
-                prs.slide_height = pptx.util.Inches(11)
-                slide2 = prs.slides.add_slide(slide_layout)
-                #places picture to cover whole slide
-                pictureHolder = prs.slides[pictureSlide].shapes
-                pictureHolder.add_picture(basename(printImage), pptx.util.Inches(0), pptx.util.Inches(0),width=pptx.util.Inches(8), height=pptx.util.Inches(11))
-                #creates next slide
-                slide3 = prs.slides.add_slide(slide_layout)
-                #place logo on the slide
-                logoHolder = slide3.shapes.add_picture(basename(printLogo), pptx.util.Inches(7), pptx.util.Inches(0),width=pptx.util.Inches(1), height=pptx.util.Inches(1))
-                #places the title
-                titleBox = slide3.shapes.add_textbox(pptx.util.Inches(4), pptx.util.Inches(.5),width=pptx.util.Inches(4), height=pptx.util.Inches(1))
-                titleBoxtf = titleBox.text_frame
-                title = titleBoxtf.add_paragraph()
-                title.text = printName
-                title.font.size = Pt(titleSize)
-                title.font.name = titleFont
-                #creates textbox for description and fun fact
-                contentBox = slide3.shapes.add_textbox(pptx.util.Inches(1), pptx.util.Inches(2), width=pptx.util.Inches(6),height=pptx.util.Inches(7))
-                contentBoxtf = contentBox.text_frame
-                contentBoxtf.word_wrap = True
-                descriptionTitle = contentBoxtf.add_paragraph()
-                descriptionTitle.font.name = textFont
-                descriptionTitle.font.bold = True
-                descriptionTitle.font.size = Pt(textSize)
-                descriptionTitle.text = "Description: "
-                descriptionParagraph = contentBoxtf.add_paragraph()
-                descriptionParagraph.font.name = textFont
-                descriptionParagraph.font.size = Pt(textSize)
-                descriptionParagraph.text = printDescription
-                FunFactTitle = contentBoxtf.add_paragraph()
-                FunFactTitle.font.bold = True
-                FunFactTitle.font.name = textFont
-                FunFactTitle.font.size = Pt(textSize)
-                FunFactTitle.text = "\nFun Fact:"
-                FunFactParagraph = contentBoxtf.add_paragraph()
-                FunFactParagraph.font.name = textFont
-                FunFactParagraph.font.size = Pt(textSize)
-                FunFactParagraph.text = printFact
-                pictureSlide = pictureSlide + 2
+             #creates slide preferences
+             slide_layout = prs.slide_layouts[6]
+             prs.slide_width = pptx.util.Inches(8)
+             prs.slide_height = pptx.util.Inches(11)
+             slide2 = prs.slides.add_slide(slide_layout)
+             #places picture to cover whole slide
+             pictureHolder = prs.slides[pictureSlide].shapes
+             pictureHolder.add_picture(basename(printImage), pptx.util.Inches(0), pptx.util.Inches(2),width=pptx.util.Inches(4), height=pptx.util.Inches(6))
+             #creates next slide
+             
+             #place logo on the slide
+             logoHolder = slide2.shapes.add_picture(basename(printLogo), pptx.util.Inches(7), pptx.util.Inches(0),width=pptx.util.Inches(1), height=pptx.util.Inches(1))
+             #places the title
+             titleBox = slide2.shapes.add_textbox(pptx.util.Inches(4), pptx.util.Inches(1.5),width=pptx.util.Inches(2), height=pptx.util.Inches(1))
+             titleBoxtf = titleBox.text_frame
+             title = titleBoxtf.add_paragraph()
+             title.text = printName
+             title.font.size = Pt(titleSize)
+             title.font.name = titleFont
+             #creates textbox for description and fun fact
+             contentBox = slide2.shapes.add_textbox(pptx.util.Inches(4), pptx.util.Inches(2), width=pptx.util.Inches(3),height=pptx.util.Inches(4))
+             contentBoxtf = contentBox.text_frame
+             contentBoxtf.word_wrap = True
+             descriptionTitle = contentBoxtf.add_paragraph()
+             descriptionTitle.font.name = textFont
+             descriptionTitle.font.bold = True
+             descriptionTitle.font.size = Pt(textSize)
+             descriptionTitle.text = "Description: "
+             descriptionParagraph = contentBoxtf.add_paragraph()
+             descriptionParagraph.font.name = textFont
+             descriptionParagraph.font.size = Pt(textSize)
+             descriptionParagraph.text = printDescription
+             FunFactTitle = contentBoxtf.add_paragraph()
+             FunFactTitle.font.bold = True
+             FunFactTitle.font.name = textFont
+             FunFactTitle.font.size = Pt(textSize)
+             FunFactTitle.text = "\nFun Fact:"
+             FunFactParagraph = contentBoxtf.add_paragraph()
+             FunFactParagraph.font.name = textFont
+             FunFactParagraph.font.size = Pt(textSize)
+             FunFactParagraph.text = printFact
+             pictureSlide = pictureSlide + 1
+ 
         test = output +".pptx"
         prs.save(test)
         return test
