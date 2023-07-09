@@ -105,7 +105,7 @@ with open("slide_numbers.txt" , "r") as f:
                 all_pages.append(x)
         else:
             all_pages.append(elem)
-        print("all values of all_pages: " + str(all_pages))
+        
 
 if(methods == "Web"):
     def buildPresentation():  
@@ -309,12 +309,11 @@ elif(methods == "Excel"):
 
     
     def buildPresentation(df):
-        
+          
      print("Creating powerpoint slides.")
     
      with open(preference, "r") as f:
-                slideOption = f.readline().split("= ")
-                slideOption = int(slideOption[1])
+                slideOption = int(layout)
                 textFont = f.readline().split("= ")
                 textFont = textFont[1]
                 titleFont = f.readline().split("= ")
@@ -324,55 +323,145 @@ elif(methods == "Excel"):
                 titleSize = f.readline().split("= ")
                 titleSize = int(titleSize[1])
                 prs = Presentation()
-                presentationLength = len(all_pages)
-                
-                
-     for i in range(presentationLength): 
-   
-                slide = prs.slides.add_slide(prs.slide_layouts[6]) 
-                slide2 = prs.slides.add_slide(prs.slide_layouts[6])
-                
-                prs.slide_width = pptx.util.Inches(8)
-                prs.slide_height = pptx.util.Inches(11)        
-                
-                contentBox = slide2.shapes.add_textbox(pptx.util.Inches(1), pptx.util.Inches(2), width=pptx.util.Inches(6),height=pptx.util.Inches(7))
-                titleBox = slide2.shapes.add_textbox(pptx.util.Inches(4), pptx.util.Inches(.5),width=pptx.util.Inches(4), height=pptx.util.Inches(1))
-                
-                titleBoxtf = titleBox.text_frame
-                title = titleBoxtf.add_paragraph()
-                title.font.name = titleFont
-                title.font.size = Pt(titleSize)
-                title.font.name = titleFont
-                title.text = str(df['name'][i]) 
-                
-                contentBoxtf = contentBox.text_frame
-                contentBoxtf.word_wrap = True
-                descriptionTitle = contentBoxtf.add_paragraph()
-                descriptionTitle.font.name = textFont
-                descriptionTitle.font.bold = True
-                descriptionTitle.font.size = Pt(textSize)
-                descriptionTitle.text = "Description: "
-                descriptionParagraph = contentBoxtf.add_paragraph()
-                descriptionParagraph.font.name = textFont
-                descriptionParagraph.font.size = Pt(textSize)
-                descriptionParagraph.text = (df['description'][i])
-                FunFactTitle = contentBoxtf.add_paragraph()
-                FunFactTitle.font.bold = True
-                FunFactTitle.font.name = textFont
-                FunFactTitle.font.size = Pt(textSize)
-                FunFactTitle.text = "\nFun Fact:"
-                FunFactParagraph = contentBoxtf.add_paragraph()
-                FunFactParagraph.font.name = textFont
-                FunFactParagraph.font.size = Pt(textSize)
-                FunFactParagraph.text = (df['did_you_know'][i])
-                
-                
-                
-                image_url = (df['image_url'][i]) 
-                if image_url:
-                    image_path = os.path.basename(image_url)
-                    slide.shapes.add_picture(image_path, pptx.util.Inches(0), pptx.util.Inches(0),width=pptx.util.Inches(8), height=pptx.util.Inches(11))
-                
+                PresentationLength = len(all_pages)
+     for i in range (PresentationLength):    
+            value = int(all_pages[i])
+            value = value -1
+            
+            if(slideOption == 1 ):
+                               
+                    slide = prs.slides.add_slide(prs.slide_layouts[6]) 
+                    
+                    prs.slide_width = pptx.util.Inches(8)
+                    prs.slide_height = pptx.util.Inches(11)        
+                    
+                    contentBox = slide.shapes.add_textbox(pptx.util.Inches(1), pptx.util.Inches(6), width = pptx.util.Inches(6), height = pptx.util.Inches(5))
+                    titleBox = slide.shapes.add_textbox(pptx.util.Inches(4), pptx.util.Inches(1.5),width=pptx.util.Inches(2), height=pptx.util.Inches(1))
+                    
+                    titleBoxtf = titleBox.text_frame
+                    title = titleBoxtf.add_paragraph()
+                    title.font.name = titleFont
+                    title.font.size = Pt(titleSize)
+                    title.font.name = titleFont
+                    title.text =(df['name'][value]) 
+                    
+                    contentBoxtf = contentBox.text_frame
+                    contentBoxtf.word_wrap = True
+                    descriptionTitle = contentBoxtf.add_paragraph()
+                    descriptionTitle.font.name = textFont
+                    descriptionTitle.font.bold = True
+                    descriptionTitle.font.size = Pt(textSize)
+                    descriptionTitle.text = "Description: "
+                    descriptionParagraph = contentBoxtf.add_paragraph()
+                    descriptionParagraph.font.name = textFont
+                    descriptionParagraph.font.size = Pt(textSize)
+                    descriptionParagraph.text = (df['description'][value])
+                    FunFactTitle = contentBoxtf.add_paragraph()
+                    FunFactTitle.font.bold = True
+                    FunFactTitle.font.name = textFont
+                    FunFactTitle.font.size = Pt(textSize)
+                    FunFactTitle.text = "\nFun Fact:"
+                    FunFactParagraph = contentBoxtf.add_paragraph()
+                    FunFactParagraph.font.name = textFont
+                    FunFactParagraph.font.size = Pt(textSize)
+                    FunFactParagraph.text =  str(df['did_you_know'][value])
+                    
+                    
+                    
+                    image_url = (df['image_url'][value]) 
+                    if image_url:
+                        image_path = os.path.basename(image_url)
+                        slide.shapes.add_picture(image_path, pptx.util.Inches(2.5),pptx.util.Inches(2),width = pptx.util.Inches(3), height = pptx.util.Inches(4))
+
+            elif(slideOption == 2):     
+                    slide = prs.slides.add_slide(prs.slide_layouts[6]) 
+                    
+                    prs.slide_width = pptx.util.Inches(8)
+                    prs.slide_height = pptx.util.Inches(11)        
+                    
+                    contentBox = slide.shapes.add_textbox(pptx.util.Inches(1), pptx.util.Inches(2), width=pptx.util.Inches(3),height=pptx.util.Inches(4))
+                    titleBox = slide.shapes.add_textbox(pptx.util.Inches(2), pptx.util.Inches(1.5), width=pptx.util.Inches(2),height=pptx.util.Inches(1))
+                    
+                    titleBoxtf = titleBox.text_frame
+                    title = titleBoxtf.add_paragraph()
+                    title.font.name = titleFont
+                    title.font.size = Pt(titleSize)
+                    title.font.name = titleFont
+                    title.text = (df['name'][value]) 
+                    
+                    contentBoxtf = contentBox.text_frame
+                    contentBoxtf.word_wrap = True
+                    descriptionTitle = contentBoxtf.add_paragraph()
+                    descriptionTitle.font.name = textFont
+                    descriptionTitle.font.bold = True
+                    descriptionTitle.font.size = Pt(textSize)
+                    descriptionTitle.text = "Description: "
+                    descriptionParagraph = contentBoxtf.add_paragraph()
+                    descriptionParagraph.font.name = textFont
+                    descriptionParagraph.font.size = Pt(textSize)
+                    descriptionParagraph.text = (df['description'][value])
+                    FunFactTitle = contentBoxtf.add_paragraph()
+                    FunFactTitle.font.bold = True
+                    FunFactTitle.font.name = textFont
+                    FunFactTitle.font.size = Pt(textSize)
+                    FunFactTitle.text = "\nFun Fact:"
+                    FunFactParagraph = contentBoxtf.add_paragraph()
+                    FunFactParagraph.font.name = textFont
+                    FunFactParagraph.font.size = Pt(textSize)
+                    FunFactParagraph.text = str(df['did_you_know'][value])
+                    
+                    
+                    
+                    image_url = (df['image_url'][value]) 
+                    if image_url:
+                        image_path = os.path.basename(image_url)
+                        slide.shapes.add_picture(image_path, pptx.util.Inches(4), pptx.util.Inches(2), width=pptx.util.Inches(4), height=pptx.util.Inches(6))
+        
+            elif(slideOption == 3):
+                    slide = prs.slides.add_slide(prs.slide_layouts[6]) 
+                    
+                    prs.slide_width = pptx.util.Inches(8)
+                    prs.slide_height = pptx.util.Inches(11)        
+                    
+                    contentBox = slide.shapes.add_textbox(pptx.util.Inches(4), pptx.util.Inches(2), width=pptx.util.Inches(3),height=pptx.util.Inches(4))
+                    titleBox = slide.shapes.add_textbox(pptx.util.Inches(4), pptx.util.Inches(1.5),width=pptx.util.Inches(2), height=pptx.util.Inches(1))
+                    
+                    titleBoxtf = titleBox.text_frame
+                    title = titleBoxtf.add_paragraph()
+                    title.font.name = titleFont
+                    title.font.size = Pt(titleSize)
+                    title.font.name = titleFont
+                    title.text = (df['name'][value]) 
+                    
+                    contentBoxtf = contentBox.text_frame
+                    contentBoxtf.word_wrap = True
+                    descriptionTitle = contentBoxtf.add_paragraph()
+                    descriptionTitle.font.name = textFont
+                    descriptionTitle.font.bold = True
+                    descriptionTitle.font.size = Pt(textSize)
+                    descriptionTitle.text = "Description: "
+                    descriptionParagraph = contentBoxtf.add_paragraph()
+                    descriptionParagraph.font.name = textFont
+                    descriptionParagraph.font.size = Pt(textSize)
+                    descriptionParagraph.text = (df['description'][value])
+                    FunFactTitle = contentBoxtf.add_paragraph()
+                    FunFactTitle.font.bold = True
+                    FunFactTitle.font.name = textFont
+                    FunFactTitle.font.size = Pt(textSize)
+                    FunFactTitle.text = "\nFun Fact:"
+                    FunFactParagraph = contentBoxtf.add_paragraph()
+                    FunFactParagraph.font.name = textFont
+                    FunFactParagraph.font.size = Pt(textSize)
+                    FunFactParagraph.text = str(df['did_you_know'][value])
+                    
+                    
+                    
+                    image_url = (df['image_url'][value]) 
+                    if image_url:
+                        image_path = os.path.basename(image_url)
+                        slide.shapes.add_picture(image_path, pptx.util.Inches(0), pptx.util.Inches(2),width=pptx.util.Inches(4), height=pptx.util.Inches(6))
+
+                            
      test = output +".pptx"
      prs.save(test)
      return test
@@ -393,8 +482,7 @@ elif(methods == "Database"):
         print("Creating PowerPoint slides.")
 
         with open("preferences.txt", "r") as f:
-            slideOption = f.readline().split("= ")
-            slideOption = int(slideOption[1])
+            slideOption = int(layout)
             textFont = f.readline().split("= ")
             textFont = textFont[1]
             titleFont = f.readline().split("= ")
@@ -405,54 +493,144 @@ elif(methods == "Database"):
             titleSize = int(titleSize[1])
 
         prs = Presentation()
-        presentationLength = len(all_pages)
-    
+        PresentationLength = len(all_pages)
+        for i in range (PresentationLength):    
+                value = int(all_pages[i])
+                value = value -1
+                if(slideOption == 1 ):
+                                   
+                        slide = prs.slides.add_slide(prs.slide_layouts[6]) 
+                        
+                        prs.slide_width = pptx.util.Inches(8)
+                        prs.slide_height = pptx.util.Inches(11)        
+                        
+                        contentBox = slide.shapes.add_textbox(pptx.util.Inches(1), pptx.util.Inches(6), width = pptx.util.Inches(6), height = pptx.util.Inches(5))
+                        titleBox = slide.shapes.add_textbox(pptx.util.Inches(4), pptx.util.Inches(1.5),width=pptx.util.Inches(2), height=pptx.util.Inches(1))
+                        
+                        titleBoxtf = titleBox.text_frame
+                        title = titleBoxtf.add_paragraph()
+                        title.font.name = titleFont
+                        title.font.size = Pt(titleSize)
+                        title.font.name = titleFont
+                        title.text = (data[value][1]) 
+                        
+                        contentBoxtf = contentBox.text_frame
+                        contentBoxtf.word_wrap = True
+                        descriptionTitle = contentBoxtf.add_paragraph()
+                        descriptionTitle.font.name = textFont
+                        descriptionTitle.font.bold = True
+                        descriptionTitle.font.size = Pt(textSize)
+                        descriptionTitle.text = "Description: "
+                        descriptionParagraph = contentBoxtf.add_paragraph()
+                        descriptionParagraph.font.name = textFont
+                        descriptionParagraph.font.size = Pt(textSize)
+                        descriptionParagraph.text = (data[value][2])
+                        FunFactTitle = contentBoxtf.add_paragraph()
+                        FunFactTitle.font.bold = True
+                        FunFactTitle.font.name = textFont
+                        FunFactTitle.font.size = Pt(textSize)
+                        FunFactTitle.text = "\nFun Fact:"
+                        FunFactParagraph = contentBoxtf.add_paragraph()
+                        FunFactParagraph.font.name = textFont
+                        FunFactParagraph.font.size = Pt(textSize)
+                        FunFactParagraph.text =  (data[value][3])
+                        
+                        
+                        
+                        image_url = (data[value][8] )
+                        if image_url:
+                            image_path = os.path.basename(image_url)
+                            slide.shapes.add_picture(image_path, pptx.util.Inches(2.5),pptx.util.Inches(2),width = pptx.util.Inches(3), height = pptx.util.Inches(4))
 
-        for i in range(0,presentationLength):
-        
-            slide = prs.slides.add_slide(prs.slide_layouts[6]) 
-            slide2 = prs.slides.add_slide(prs.slide_layouts[6])
-        
-            prs.slide_width = pptx.util.Inches(8)
-            prs.slide_height = pptx.util.Inches(11)        
-        
-            contentBox = slide2.shapes.add_textbox(pptx.util.Inches(1), pptx.util.Inches(2), width=pptx.util.Inches(6),height=pptx.util.Inches(7))
-            titleBox = slide2.shapes.add_textbox(pptx.util.Inches(4), pptx.util.Inches(.5),width=pptx.util.Inches(4), height=pptx.util.Inches(1))
+                elif(slideOption == 2):     
+                        slide = prs.slides.add_slide(prs.slide_layouts[6]) 
+                        
+                        prs.slide_width = pptx.util.Inches(8)
+                        prs.slide_height = pptx.util.Inches(11)        
+                        
+                        contentBox = slide.shapes.add_textbox(pptx.util.Inches(1), pptx.util.Inches(2), width=pptx.util.Inches(3),height=pptx.util.Inches(4))
+                        titleBox = slide.shapes.add_textbox(pptx.util.Inches(2), pptx.util.Inches(1.5), width=pptx.util.Inches(2),height=pptx.util.Inches(1))
+                        
+                        titleBoxtf = titleBox.text_frame
+                        title = titleBoxtf.add_paragraph()
+                        title.font.name = titleFont
+                        title.font.size = Pt(titleSize)
+                        title.font.name = titleFont
+                        title.text = (data[value][1]) 
+                        
+                        contentBoxtf = contentBox.text_frame
+                        contentBoxtf.word_wrap = True
+                        descriptionTitle = contentBoxtf.add_paragraph()
+                        descriptionTitle.font.name = textFont
+                        descriptionTitle.font.bold = True
+                        descriptionTitle.font.size = Pt(textSize)
+                        descriptionTitle.text = "Description: "
+                        descriptionParagraph = contentBoxtf.add_paragraph()
+                        descriptionParagraph.font.name = textFont
+                        descriptionParagraph.font.size = Pt(textSize)
+                        descriptionParagraph.text = (data[value][2])
+                        FunFactTitle = contentBoxtf.add_paragraph()
+                        FunFactTitle.font.bold = True
+                        FunFactTitle.font.name = textFont
+                        FunFactTitle.font.size = Pt(textSize)
+                        FunFactTitle.text = "\nFun Fact:"
+                        FunFactParagraph = contentBoxtf.add_paragraph()
+                        FunFactParagraph.font.name = textFont
+                        FunFactParagraph.font.size = Pt(textSize)
+                        FunFactParagraph.text = (data[value][3])
+                        
+                        
+                        
+                        image_url = image_url = data[value][8] 
+                        if image_url:
+                            image_path = os.path.basename(image_url)
+                            slide.shapes.add_picture(image_path, pptx.util.Inches(4), pptx.util.Inches(2), width=pptx.util.Inches(4), height=pptx.util.Inches(6))
             
-            titleBoxtf = titleBox.text_frame
-            title = titleBoxtf.add_paragraph()
-            title.font.name = titleFont
-            title.font.size = Pt(titleSize)
-            title.font.name = titleFont
-            title.text = str(data[i][1]) 
-        
-            contentBoxtf = contentBox.text_frame
-            contentBoxtf.word_wrap = True
-            descriptionTitle = contentBoxtf.add_paragraph()
-            descriptionTitle.font.name = textFont
-            descriptionTitle.font.bold = True
-            descriptionTitle.font.size = Pt(textSize)
-            descriptionTitle.text = "Description: "
-            descriptionParagraph = contentBoxtf.add_paragraph()
-            descriptionParagraph.font.name = textFont
-            descriptionParagraph.font.size = Pt(textSize)
-            descriptionParagraph.text = str(data[i][2])
-            FunFactTitle = contentBoxtf.add_paragraph()
-            FunFactTitle.font.bold = True
-            FunFactTitle.font.name = textFont
-            FunFactTitle.font.size = Pt(textSize)
-            FunFactTitle.text = "\nFun Fact:"
-            FunFactParagraph = contentBoxtf.add_paragraph()
-            FunFactParagraph.font.name = textFont
-            FunFactParagraph.font.size = Pt(textSize)
-            FunFactParagraph.text = str(data[i][3])
-        
-        
-        
-            image_url = data[ i][8]  
-            if image_url:
-                image_path = os.path.basename(image_url)
-                slide.shapes.add_picture(image_path, pptx.util.Inches(0), pptx.util.Inches(0),width=pptx.util.Inches(8), height=pptx.util.Inches(11))
+                elif(slideOption == 3):
+                        slide = prs.slides.add_slide(prs.slide_layouts[6]) 
+                        
+                        prs.slide_width = pptx.util.Inches(8)
+                        prs.slide_height = pptx.util.Inches(11)        
+                        
+                        contentBox = slide.shapes.add_textbox(pptx.util.Inches(4), pptx.util.Inches(2), width=pptx.util.Inches(3),height=pptx.util.Inches(4))
+                        titleBox = slide.shapes.add_textbox(pptx.util.Inches(4), pptx.util.Inches(1.5),width=pptx.util.Inches(2), height=pptx.util.Inches(1))
+                        
+                        titleBoxtf = titleBox.text_frame
+                        title = titleBoxtf.add_paragraph()
+                        title.font.name = titleFont
+                        title.font.size = Pt(titleSize)
+                        title.font.name = titleFont
+                        title.text = (data[value][1]) 
+                        
+                        contentBoxtf = contentBox.text_frame
+                        contentBoxtf.word_wrap = True
+                        descriptionTitle = contentBoxtf.add_paragraph()
+                        descriptionTitle.font.name = textFont
+                        descriptionTitle.font.bold = True
+                        descriptionTitle.font.size = Pt(textSize)
+                        descriptionTitle.text = "Description: "
+                        descriptionParagraph = contentBoxtf.add_paragraph()
+                        descriptionParagraph.font.name = textFont
+                        descriptionParagraph.font.size = Pt(textSize)
+                        descriptionParagraph.text = (data[i][2])
+                        FunFactTitle = contentBoxtf.add_paragraph()
+                        FunFactTitle.font.bold = True
+                        FunFactTitle.font.name = textFont
+                        FunFactTitle.font.size = Pt(textSize)
+                        FunFactTitle.text = "\nFun Fact:"
+                        FunFactParagraph = contentBoxtf.add_paragraph()
+                        FunFactParagraph.font.name = textFont
+                        FunFactParagraph.font.size = Pt(textSize)
+                        FunFactParagraph.text = (data[value][3])
+                        
+                        
+                        
+                        image_url = data[value][8]  
+                        if image_url:
+                            image_path = os.path.basename(image_url)
+                            slide.shapes.add_picture(image_path, pptx.util.Inches(0), pptx.util.Inches(2),width=pptx.util.Inches(4), height=pptx.util.Inches(6))
+
+                                
             
         test = output +".pptx"
         prs.save(test)
