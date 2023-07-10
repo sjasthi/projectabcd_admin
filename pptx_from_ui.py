@@ -16,6 +16,7 @@ import mysql.connector
 
 
 window = tk.Tk()
+window.title("ABCD Book Generation UI")
 
 label_text = tk.StringVar()
 label_text.set("Enter page numbers")
@@ -46,20 +47,38 @@ btn_text = tk.StringVar()
 btn_text.set("Layout")
 btn_box =tk.Label(window, textvariable=btn_text).grid(row=2,column=1)
 
-radio_button1 = tk.Radiobutton(window, text="Pic on left", variable=selected_option, value=3).grid(row=2,column=2)
-radio_button1 = tk.Radiobutton(window, text="Pic on right", variable=selected_option, value=2).grid(row=2,column=3)
-radio_button1 = tk.Radiobutton(window, text="Pic on top", variable=selected_option, value=1).grid(row=2,column=4)
+ Create the radio buttons
+radio_button1 = tk.Radiobutton(window, text="Pic on left", variable=selected_option, value=3)
+radio_button2 = tk.Radiobutton(window, text="Pic on right", variable=selected_option, value=2)
+radio_button3 = tk.Radiobutton(window, text="Pic on top", variable=selected_option, value=1)
 
+# Set the default selection to "Pic on left"
+selected_option.set(3)
+
+# Layout the radio buttons
+radio_button1.grid(row=2, column=2)
+radio_button2.grid(row=2, column=3)
+radio_button3.grid(row=2, column=4)
 
 btn_text_1 = tk.StringVar()
 btn_text_1.set("Method")
 btn_box_1 =tk.Label(window, textvariable=btn_text_1).grid(row=3,column=1)
 
 # Create the second radio button
-radio_button2 = tk.Radiobutton(window, text="Web", variable=selected_option_1 , value="Web" ).grid(row=3,column=2)
-radio_button2 = tk.Radiobutton(window, text="Excel", variable=selected_option_1, value="Excel").grid(row=3,column=3)
-radio_button2 = tk.Radiobutton(window, text="APi", variable=selected_option_1, value="Api").grid(row=3,column=4)
-radio_button2 = tk.Radiobutton(window, text="db", variable=selected_option_1, value="Database").grid(row=3,column=5)
+radio_button2 = tk.Radiobutton(window, text="Web", variable=selected_option_1, value="Web")
+radio_button3 = tk.Radiobutton(window, text="Excel", variable=selected_option_1, value="Excel")
+radio_button4 = tk.Radiobutton(window, text="API", variable=selected_option_1, value="API")
+radio_button5 = tk.Radiobutton(window, text="Database", variable=selected_option_1, value="Database")
+
+# Set the default selection to "Web"
+selected_option_1.set("Web")
+
+# Layout the radio buttons
+radio_button2.grid(row=3, column=2)
+radio_button3.grid(row=3, column=3)
+radio_button4.grid(row=3, column=4)
+radio_button5.grid(row=3, column=5)
+
 
 def generate_output():
    
