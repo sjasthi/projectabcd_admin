@@ -52,6 +52,18 @@ def create_slide(prs, data):
         top = Inches(2)
         pic = slide.shapes.add_picture(image_path, left, top)
 
+# Function to handle numbers with dashes
+def expand_ranges(ids_str):
+    expanded_ids = []
+    for part in ids_str.split(','):
+        part = part.strip()
+        if '-' in part:
+            start, end = map(int, part.split('-'))
+            expanded_ids.extend(range(start, end + 1))
+        else:
+            expanded_ids.append(int(part))
+    return expanded_ids
+
 def main():
     prs = Presentation()
     prs.slide_width = Inches(8)
@@ -61,8 +73,8 @@ def main():
     with open('slide_numbers.txt', 'r') as file:
         ids_str = file.read()
 
-    # Convert the comma-separated numbers into a list of integers
-    ids = [int(id.strip()) for id in ids_str.split(',')]
+    # Expand ranges and convert comma-separated numbers into a list of integers
+    ids = expand_ranges(ids_str)
 
     for id in ids:
         data = fetch_data_from_api(id)
