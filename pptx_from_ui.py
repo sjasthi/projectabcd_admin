@@ -58,6 +58,7 @@ btn_text.set("Layout")
 btn_box =tk.Label(window, textvariable=btn_text).grid(row=2,column=1)
 
 # Create the radio buttons
+radio_button5 = tk.Radiobutton(window, text="Landscape", variable = selected_option, value=5)
 radio_button4 = tk.Radiobutton(window, text="pic seperate", variable = selected_option, value=4)
 radio_button1 = tk.Radiobutton(window, text="Pic on left", variable=selected_option, value=3)
 radio_button2 = tk.Radiobutton(window, text="Pic on right", variable=selected_option, value=2)
@@ -70,6 +71,8 @@ radio_button1.grid(row=2, column=2)
 radio_button2.grid(row=2, column=3)
 radio_button3.grid(row=2, column=4)
 radio_button4.grid(row = 2, column=5)
+radio_button5.grid(row = 2, column=6)
+
 
 #label for sort order
 sort_btn = tk.StringVar()
@@ -309,7 +312,7 @@ if(methods == "Web"):
                 prs.slide_width = pptx.util.Inches(8)
                 prs.slide_height = pptx.util.Inches(11)
                 #places the logo on the slide
-                logoHolder = slide.shapes.add_picture(basename(printLogo), pptx.util.Inches(7), pptx.util.Inches(0),width=pptx.util.Inches(1), height=pptx.util.Inches(1))
+                logoHolder = slide.shapes.add_picture(basename(printLogo), pptx.util.Inches(7), pptx.util.Inches(10),width=pptx.util.Inches(1), height=pptx.util.Inches(1))
                 #places the title on the slide
                 titleBox = slide.shapes.add_textbox(pptx.util.Inches(2.25), pptx.util.Inches(.5), width = pptx.util.Inches(3), height = pptx.util.Inches(1))
                 titleBoxtf = titleBox.text_frame
@@ -317,6 +320,11 @@ if(methods == "Web"):
                 title.text = printName
                 title.font.name = titleFont
                 title.font.size = Pt(titleSize)
+                
+                slideId = slide.shapes.add_textbox(pptx.util.Inches(6.5), pptx.util.Inches(10.25), width = pptx.util.Inches(1), height = pptx.util.Inches(1))                       
+                slideIdf = slideId.text_frame
+                slide_id =slideIdf.add_paragraph()
+                slide_id.text =str(value)
                 #places the picture on the slide
                 pictureHolder = prs.slides[i].shapes
                 pictureHolder.add_picture(basename(printImage), pptx.util.Inches(2.5),pptx.util.Inches(2),width = pptx.util.Inches(3), height = pptx.util.Inches(4))
@@ -361,9 +369,13 @@ if(methods == "Web"):
                 #places the picture to cover the whole slide
                 pictureHolder = prs.slides[i+1].shapes
                 pictureHolder.add_picture(basename(printImage), pptx.util.Inches(4), pptx.util.Inches(2), width=pptx.util.Inches(4), height=pptx.util.Inches(6))
-                                #creates next slide
+                
+                slideId = slide.shapes.add_textbox(pptx.util.Inches(7), pptx.util.Inches(10), width = pptx.util.Inches(1), height = pptx.util.Inches(1))                       
+                slideIdf = slideId.text_frame
+                slide_id =slideIdf.add_paragraph()
+                slide_id.text =str(value)
                 #places the logo on the slide
-                logoHolder = slide.shapes.add_picture(basename(printLogo), pptx.util.Inches(7), pptx.util.Inches(0),width=pptx.util.Inches(1), height=pptx.util.Inches(1))
+                logoHolder = slide.shapes.add_picture(basename(printLogo), pptx.util.Inches(7), pptx.util.Inches(10),width=pptx.util.Inches(1), height=pptx.util.Inches(1))
                 #places title on the slide
                 titleBox = slide.shapes.add_textbox(pptx.util.Inches(2.5), pptx.util.Inches(.5), width=pptx.util.Inches(2),height=pptx.util.Inches(1))
                 titleBoxtf = titleBox.text_frame
@@ -404,7 +416,11 @@ if(methods == "Web"):
                 #places picture to cover whole slide
                 pictureHolder = prs.slides[pictureSlide].shapes
                 pictureHolder.add_picture(basename(printImage), pptx.util.Inches(0), pptx.util.Inches(2),width=pptx.util.Inches(4), height=pptx.util.Inches(6))
-                #creates next slide
+                
+                slideId = slide2.shapes.add_textbox(pptx.util.Inches(7), pptx.util.Inches(10), width = pptx.util.Inches(1), height = pptx.util.Inches(1))                       
+                slideIdf = slideId.text_frame
+                slide_id =slideIdf.add_paragraph()
+                slide_id.text =str(value)
                 
                 #place logo on the slide
                 #places the title
@@ -458,7 +474,11 @@ if(methods == "Web"):
                 #creates next slide
                 slide2 = prs.slides.add_slide(slide_layout)
                 #places the logo on the slide
-                logoHolder = slide2.shapes.add_picture(basename(printLogo), pptx.util.Inches(7), pptx.util.Inches(0),width=pptx.util.Inches(1), height=pptx.util.Inches(1))
+                slideId = slide2.shapes.add_textbox(pptx.util.Inches(7), pptx.util.Inches(10), width = pptx.util.Inches(1), height = pptx.util.Inches(1))                       
+                slideIdf = slideId.text_frame
+                slide_id =slideIdf.add_paragraph()
+                slide_id.text =str(value)
+                logoHolder = slide2.shapes.add_picture(basename(printLogo), pptx.util.Inches(7), pptx.util.Inches(10),width=pptx.util.Inches(1), height=pptx.util.Inches(1))
                 #places title on the slide
                 titleBox = slide2.shapes.add_textbox(pptx.util.Inches(2), pptx.util.Inches(.5), width=pptx.util.Inches(4),height=pptx.util.Inches(1))
                 titleBoxtf = titleBox.text_frame
@@ -489,6 +509,55 @@ if(methods == "Web"):
                 FunFactParagraph.font.size = Pt(textSize)
                 FunFactParagraph.text = printFact
                 pictureSlide = pictureSlide + 2
+            elif(slideOption == 5 ):
+                #creates the slides and sets layout preferences
+                slide_layout = prs.slide_layouts[6]
+                slide = prs.slides.add_slide(slide_layout)
+                prs.slide_width = pptx.util.Inches(11)
+                prs.slide_height = pptx.util.Inches(8)
+                
+                slideId = slide.shapes.add_textbox(pptx.util.Inches(7), pptx.util.Inches(10), width = pptx.util.Inches(1), height = pptx.util.Inches(1))                       
+                slideIdf = slideId.text_frame
+                slide_id =slideIdf.add_paragraph()
+                slide_id.text =str(value) 
+                #places the logo on the slide
+                logoHolder = slide.shapes.add_picture(basename(printLogo), pptx.util.Inches(10), pptx.util.Inches(7),width=pptx.util.Inches(1), height=pptx.util.Inches(1))
+                #places the title on the slide
+                titleBox = slide.shapes.add_textbox(pptx.util.Inches(3.5), pptx.util.Inches(.25),width=pptx.util.Inches(2), height=pptx.util.Inches(1))
+                titleBoxtf = titleBox.text_frame
+                title = titleBoxtf.add_paragraph()
+                title.text = printName
+                title.font.name = titleFont
+                title.font.size = Pt(titleSize)
+                #places the picture on the slide
+                pictureHolder = prs.slides[i].shapes
+                pictureHolder.add_picture(basename(printImage), pptx.util.Inches(1),pptx.util.Inches(1),width = pptx.util.Inches(4), height = pptx.util.Inches(5))
+                #creates a textbox for the description and fun fact
+                contentBox = slide.shapes.add_textbox(pptx.util.Inches(6), pptx.util.Inches(.75), width=pptx.util.Inches(4),height=pptx.util.Inches(1))
+                contentBoxtf = contentBox.text_frame
+                contentBoxtf.word_wrap = True
+                descriptionTitle = contentBoxtf.add_paragraph()
+                descriptionTitle.font.name = textFont
+                descriptionTitle.font.bold = True
+                descriptionTitle.font.size = Pt(textSize)
+                descriptionTitle.text = "Description: "
+                descriptionParagraph = contentBoxtf.add_paragraph()
+                descriptionParagraph.font.name = textFont
+                descriptionParagraph.font.size = Pt(textSize)
+                descriptionParagraph.text = printDescription
+                
+                factBox = slide.shapes.add_textbox(pptx.util.Inches(1), pptx.util.Inches(5), width=pptx.util.Inches(3),height=pptx.util.Inches(1))
+                factBoxf = factBox.text_frame
+                factBoxf.word_wrap = True
+                FunFactTitle = factBoxf.add_paragraph()
+                FunFactTitle.font.name = textFont
+                FunFactTitle.font.bold = True
+                FunFactTitle.font.size = Pt(textSize)
+                FunFactTitle.text = "\nFun Fact:"
+                FunFactParagraph = factBoxf.add_paragraph()
+                FunFactParagraph.font.name = textFont
+                FunFactParagraph.font.size = Pt(textSize)
+                FunFactParagraph.text = printFact
 
         test = output +".pptx"
         prs.save(test)
@@ -559,6 +628,10 @@ elif(methods == "Excel"):
                     prs.slide_width = pptx.util.Inches(8)
                     prs.slide_height = pptx.util.Inches(11)        
                     
+                    slideId = slide.shapes.add_textbox(pptx.util.Inches(7), pptx.util.Inches(10), width = pptx.util.Inches(1), height = pptx.util.Inches(1))                       
+                    slideIdf = slideId.text_frame
+                    slide_id =slideIdf.add_paragraph()
+                    slide_id.text =str(value+1) 
                     contentBox = slide.shapes.add_textbox(pptx.util.Inches(1), pptx.util.Inches(6), width = pptx.util.Inches(6), height = pptx.util.Inches(5))
                     titleBox = slide.shapes.add_textbox(pptx.util.Inches(4), pptx.util.Inches(.5),width=pptx.util.Inches(2), height=pptx.util.Inches(1))
                     
@@ -603,8 +676,12 @@ elif(methods == "Excel"):
                     prs.slide_width = pptx.util.Inches(8)
                     prs.slide_height = pptx.util.Inches(11)        
                     
+                    slideId = slide.shapes.add_textbox(pptx.util.Inches(7), pptx.util.Inches(10), width = pptx.util.Inches(1), height = pptx.util.Inches(1))                       
+                    slideIdf = slideId.text_frame
+                    slide_id =slideIdf.add_paragraph()
+                    slide_id.text =str(value+1) 
                     contentBox = slide.shapes.add_textbox(pptx.util.Inches(1), pptx.util.Inches(.75), width=pptx.util.Inches(3),height=pptx.util.Inches(4))
-                    titleBox = slide.shapes.add_textbox(pptx.util.Inches(2.5), pptx.util.Inches(.5), width=pptx.util.Inches(2),height=pptx.util.Inches(1))
+                    titleBox = slide.shapes.add_textbox(pptx.util.Inches(3.5), pptx.util.Inches(.5), width=pptx.util.Inches(2),height=pptx.util.Inches(1))
                     
                     titleBoxtf = titleBox.text_frame
                     title = titleBoxtf.add_paragraph()
@@ -647,8 +724,12 @@ elif(methods == "Excel"):
                     prs.slide_width = pptx.util.Inches(8)
                     prs.slide_height = pptx.util.Inches(11)        
                     
+                    slideId = slide.shapes.add_textbox(pptx.util.Inches(7), pptx.util.Inches(10), width = pptx.util.Inches(1), height = pptx.util.Inches(1))                       
+                    slideIdf = slideId.text_frame
+                    slide_id =slideIdf.add_paragraph()
+                    slide_id.text =str(value+1) 
                     contentBox = slide.shapes.add_textbox(pptx.util.Inches(4), pptx.util.Inches(.75), width=pptx.util.Inches(3),height=pptx.util.Inches(2))
-                    titleBox = slide.shapes.add_textbox(pptx.util.Inches(2.5), pptx.util.Inches(.25),width=pptx.util.Inches(2), height=pptx.util.Inches(1))
+                    titleBox = slide.shapes.add_textbox(pptx.util.Inches(3.5), pptx.util.Inches(.25),width=pptx.util.Inches(2), height=pptx.util.Inches(1))
                     
                     titleBoxtf = titleBox.text_frame
                     title = titleBoxtf.add_paragraph()
@@ -692,9 +773,12 @@ elif(methods == "Excel"):
                     prs.slide_width = pptx.util.Inches(8)
                     prs.slide_height = pptx.util.Inches(11)        
                     
-                    contentBox = slide2.shapes.add_textbox(pptx.util.Inches(1), pptx.util.Inches(2), width=pptx.util.Inches(6),height=pptx.util.Inches(7))
-                    titleBox = slide2.shapes.add_textbox(pptx.util.Inches(4), pptx.util.Inches(.5),width=pptx.util.Inches(4), height=pptx.util.Inches(1))
-                    
+                    slideId = slide.shapes.add_textbox(pptx.util.Inches(7), pptx.util.Inches(10), width = pptx.util.Inches(1), height = pptx.util.Inches(1))                       
+                    slideIdf = slideId.text_frame
+                    slide_id =slideIdf.add_paragraph()
+                    slide_id.text =str(value+1) 
+                    contentBox = slide.shapes.add_textbox(pptx.util.Inches(6), pptx.util.Inches(.75), width=pptx.util.Inches(4),height=pptx.util.Inches(1))
+                    titleBox = slide.shapes.add_textbox(pptx.util.Inches(3.5), pptx.util.Inches(.25),width=pptx.util.Inches(2), height=pptx.util.Inches(1)) 
                     titleBoxtf = titleBox.text_frame
                     title = titleBoxtf.add_paragraph()
                     title.font.name = titleFont
@@ -727,8 +811,58 @@ elif(methods == "Excel"):
                     if image_url:
                         image_path = os.path.basename(image_url)
                         slide.shapes.add_picture(image_path, pptx.util.Inches(0), pptx.util.Inches(0),width=pptx.util.Inches(8), height=pptx.util.Inches(11))
-                    
                             
+            if(slideOption == 5 ):
+                               
+                    slide = prs.slides.add_slide(prs.slide_layouts[6]) 
+                    
+                    prs.slide_width = pptx.util.Inches(11)
+                    prs.slide_height = pptx.util.Inches(8)        
+                    
+                    slideId = slide.shapes.add_textbox(pptx.util.Inches(7), pptx.util.Inches(10), width = pptx.util.Inches(1), height = pptx.util.Inches(1))                       
+                    slideIdf = slideId.text_frame
+                    slide_id =slideIdf.add_paragraph()
+                    slide_id.text =str(value+1) 
+                    contentBox = slide.shapes.add_textbox(pptx.util.Inches(6), pptx.util.Inches(.75), width = pptx.util.Inches(4), height = pptx.util.Inches(1))
+                    titleBox = slide.shapes.add_textbox(pptx.util.Inches(3.5), pptx.util.Inches(.25),width=pptx.util.Inches(2), height=pptx.util.Inches(1))
+                    
+                    titleBoxtf = titleBox.text_frame
+                    title = titleBoxtf.add_paragraph()
+                    title.font.name = titleFont
+                    title.font.size = Pt(titleSize)
+                    title.font.name = titleFont
+                    title.text =(df['name'][value]) 
+                    
+                    contentBoxtf = contentBox.text_frame
+                    contentBoxtf.word_wrap = True
+                    descriptionTitle = contentBoxtf.add_paragraph()
+                    descriptionTitle.font.name = textFont
+                    descriptionTitle.font.bold = True
+                    descriptionTitle.font.size = Pt(textSize)
+                    descriptionTitle.text = "Description: "
+                    descriptionParagraph = contentBoxtf.add_paragraph()
+                    descriptionParagraph.font.name = textFont
+                    descriptionParagraph.font.size = Pt(textSize)
+                    descriptionParagraph.text = (df['description'][value])
+                    factBox = slide.shapes.add_textbox(pptx.util.Inches(1), pptx.util.Inches(5), width=pptx.util.Inches(3),height=pptx.util.Inches(1))
+                    factBoxf = factBox.text_frame
+                    factBoxf.word_wrap = True
+                    FunFactTitle = factBoxf.add_paragraph()
+                    FunFactTitle.font.bold = True
+                    FunFactTitle.font.name = textFont
+                    FunFactTitle.font.size = Pt(textSize)
+                    FunFactTitle.text = "\nFun Fact:"
+                    FunFactParagraph = factBoxf.add_paragraph()
+                    FunFactParagraph.font.name = textFont
+                    FunFactParagraph.font.size = Pt(textSize)
+                    FunFactParagraph.text =  str(df['did_you_know'][value])
+                
+                    image_url = (df['image_url'][value]) 
+                    if image_url:
+                        image_path = os.path.basename(image_url)
+                        slide.shapes.add_picture(image_path, pptx.util.Inches(1),pptx.util.Inches(1),width = pptx.util.Inches(4), height = pptx.util.Inches(5))
+       
+                                    
      test = output +".pptx"
      prs.save(test)
      return test
@@ -801,9 +935,12 @@ elif(methods == "Database"):
                         slide = prs.slides.add_slide(prs.slide_layouts[6]) 
                         prs.slide_width = pptx.util.Inches(8)
                         prs.slide_height = pptx.util.Inches(11)        
-                        
+                        slideId = slide.shapes.add_textbox(pptx.util.Inches(7), pptx.util.Inches(10), width = pptx.util.Inches(1), height = pptx.util.Inches(1))                       
+                        slideIdf = slideId.text_frame
+                        slide_id =slideIdf.add_paragraph()
+                        slide_id.text =str(value+1)
                         contentBox = slide.shapes.add_textbox(pptx.util.Inches(1), pptx.util.Inches(6), width = pptx.util.Inches(6), height = pptx.util.Inches(5))
-                        titleBox = slide.shapes.add_textbox(pptx.util.Inches(4), pptx.util.Inches(.5),width=pptx.util.Inches(2), height=pptx.util.Inches(1))
+                        titleBox = slide.shapes.add_textbox(pptx.util.Inches(3.5), pptx.util.Inches(.5),width=pptx.util.Inches(2), height=pptx.util.Inches(1))
                         
                         titleBoxtf = titleBox.text_frame
                         title = titleBoxtf.add_paragraph()
@@ -845,9 +982,12 @@ elif(methods == "Database"):
                         
                         prs.slide_width = pptx.util.Inches(8)
                         prs.slide_height = pptx.util.Inches(11)        
-                        
+                        slideId = slide.shapes.add_textbox(pptx.util.Inches(7), pptx.util.Inches(10), width = pptx.util.Inches(1), height = pptx.util.Inches(1))                       
+                        slideIdf = slideId.text_frame
+                        slide_id =slideIdf.add_paragraph()
+                        slide_id.text =str(value+1)
                         contentBox = slide.shapes.add_textbox(pptx.util.Inches(1), pptx.util.Inches(.75), width=pptx.util.Inches(3),height=pptx.util.Inches(4))
-                        titleBox = slide.shapes.add_textbox(pptx.util.Inches(2.5), pptx.util.Inches(.5), width=pptx.util.Inches(2),height=pptx.util.Inches(1))
+                        titleBox = slide.shapes.add_textbox(pptx.util.Inches(3.5), pptx.util.Inches(.5),width=pptx.util.Inches(2), height=pptx.util.Inches(1))
                         
                         titleBoxtf = titleBox.text_frame
                         title = titleBoxtf.add_paragraph()
@@ -890,8 +1030,12 @@ elif(methods == "Database"):
                         prs.slide_width = pptx.util.Inches(8)
                         prs.slide_height = pptx.util.Inches(11)        
                         
+                        slideId = slide.shapes.add_textbox(pptx.util.Inches(7), pptx.util.Inches(10), width = pptx.util.Inches(1), height = pptx.util.Inches(1))                       
+                        slideIdf = slideId.text_frame
+                        slide_id =slideIdf.add_paragraph()
+                        slide_id.text =str(value+1)
                         contentBox = slide.shapes.add_textbox(pptx.util.Inches(4), pptx.util.Inches(.75), width=pptx.util.Inches(3),height=pptx.util.Inches(2))
-                        titleBox = slide.shapes.add_textbox(pptx.util.Inches(2.5), pptx.util.Inches(.25),width=pptx.util.Inches(2), height=pptx.util.Inches(1))
+                        titleBox = slide.shapes.add_textbox(pptx.util.Inches(3.5), pptx.util.Inches(.5),width=pptx.util.Inches(2), height=pptx.util.Inches(1))
                         
                         titleBoxtf = titleBox.text_frame
                         title = titleBoxtf.add_paragraph()
@@ -935,8 +1079,12 @@ elif(methods == "Database"):
                     prs.slide_width = pptx.util.Inches(8)
                     prs.slide_height = pptx.util.Inches(11)        
                     
+                    slideId = slide.shapes.add_textbox(pptx.util.Inches(7), pptx.util.Inches(10), width = pptx.util.Inches(1), height = pptx.util.Inches(1))                       
+                    slideIdf = slideId.text_frame
+                    slide_id =slideIdf.add_paragraph()
+                    slide_id.text =str(value+1)                    
                     contentBox = slide2.shapes.add_textbox(pptx.util.Inches(1), pptx.util.Inches(2), width=pptx.util.Inches(6),height=pptx.util.Inches(7))
-                    titleBox = slide2.shapes.add_textbox(pptx.util.Inches(4), pptx.util.Inches(.5),width=pptx.util.Inches(4), height=pptx.util.Inches(1))
+                    titleBox = slide.shapes.add_textbox(pptx.util.Inches(3.5), pptx.util.Inches(.5),width=pptx.util.Inches(2), height=pptx.util.Inches(1))
                     
                     titleBoxtf = titleBox.text_frame
                     title = titleBoxtf.add_paragraph()
@@ -966,14 +1114,62 @@ elif(methods == "Database"):
                     FunFactParagraph.font.size = Pt(textSize)
                     FunFactParagraph.text = (data[value][3])
                     
-                    
-                    
                     image_url = data[value][8]  
                     if image_url:
                         image_path = os.path.basename(image_url)
                         slide.shapes.add_picture(image_path, pptx.util.Inches(0), pptx.util.Inches(0),width=pptx.util.Inches(8), height=pptx.util.Inches(11))
 
-                                            
+            if(slideOption == 5 ):
+                               
+                    slide = prs.slides.add_slide(prs.slide_layouts[6]) 
+                    
+                    prs.slide_width = pptx.util.Inches(11)
+                    prs.slide_height = pptx.util.Inches(8)        
+                    
+                    slideId = slide.shapes.add_textbox(pptx.util.Inches(7), pptx.util.Inches(10), width = pptx.util.Inches(1), height = pptx.util.Inches(1))                       
+                    slideIdf = slideId.text_frame
+                    slide_id =slideIdf.add_paragraph()
+                    slide_id.text =str(value+1) 
+                    
+                    contentBox = slide.shapes.add_textbox(pptx.util.Inches(6), pptx.util.Inches(.75), width = pptx.util.Inches(4), height = pptx.util.Inches(1))
+                    titleBox = slide.shapes.add_textbox(pptx.util.Inches(4), pptx.util.Inches(.25),width=pptx.util.Inches(2), height=pptx.util.Inches(1))
+                    titleBoxtf = titleBox.text_frame
+                    title = titleBoxtf.add_paragraph()
+                    title.font.name = titleFont
+                    title.font.size = Pt(titleSize)
+                    title.font.name = titleFont
+                    title.text =(data[value][1]) 
+                    
+                    contentBoxtf = contentBox.text_frame
+                    contentBoxtf.word_wrap = True
+                    descriptionTitle = contentBoxtf.add_paragraph()
+                    descriptionTitle.font.name = textFont
+                    descriptionTitle.font.bold = True
+                    descriptionTitle.font.size = Pt(textSize)
+                    descriptionTitle.text = "Description: "
+                    descriptionParagraph = contentBoxtf.add_paragraph()
+                    descriptionParagraph.font.name = textFont
+                    descriptionParagraph.font.size = Pt(textSize)
+                    descriptionParagraph.text = (data[value][2])
+                    factBox = slide.shapes.add_textbox(pptx.util.Inches(1), pptx.util.Inches(5), width=pptx.util.Inches(3),height=pptx.util.Inches(1))
+                    factBoxf = factBox.text_frame
+                    factBoxf.word_wrap = True
+                    FunFactTitle = factBoxf.add_paragraph()
+                    FunFactTitle.font.bold = True
+                    FunFactTitle.font.name = textFont
+                    FunFactTitle.font.size = Pt(textSize)
+                    FunFactTitle.text = "\nFun Fact:"
+                    FunFactParagraph = factBoxf.add_paragraph()
+                    FunFactParagraph.font.name = textFont
+                    FunFactParagraph.font.size = Pt(textSize)
+                    FunFactParagraph.text =  (data[value][3])
+                
+                    image_url = (data[value][8])
+                    if image_url:
+                        image_path = os.path.basename(image_url)
+                        slide.shapes.add_picture(image_path, pptx.util.Inches(1),pptx.util.Inches(1),width = pptx.util.Inches(4), height = pptx.util.Inches(5))
+       
+                                                                               
             
         test = output +".pptx"
         prs.save(test)
