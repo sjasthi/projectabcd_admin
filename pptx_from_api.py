@@ -3,131 +3,129 @@ import requests
 import json
 from pptx import Presentation
 from pptx.util import Inches, Pt
+import io
 
 # Declare the API base URL as a global constant
 API_BASE_URL = "https://abcd2.projectabcd.com/api/getinfo.php?id="
 
-def fetch_data_from_api(id):
-    url = API_BASE_URL + str(id)
-    headers = {
-        "Accept": "application/json",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
-    }
+def fetch_data_from_api(ids):
+    data_list = []
+    for id in ids:
+        url = API_BASE_URL + str(id)
+        headers = {
+            "Accept": "application/json",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+        }
 
-    # Make API request and check if the response is successful (status code 200):
-    response = requests.get(url, headers=headers)
+        response = requests.get(url, headers=headers)
 
-    if response.status_code == 200:
-        return response.json()['data']
-    else:
-        print(f"Failed to get data from the API for ID {id}. Status code:", response.status_code)
-        return None
+        if response.status_code == 200:
+            data_list.append(response.json()['data'])
+        else:
+            print(f"Failed to get data from the API for ID {id}. Status code:", response.status_code)
 
-def create_slide(prs, data, preferences):
-    # Get preferences
-    display_option = preferences.get('DISPLAY OPTION', 3)
-    text_font = preferences.get('TEXT_FONT', 'Arial')
-    heading_font = preferences.get('HEADING_FONT', 'Arial')
-    text_size = int(preferences.get('TEXT_SIZE', 18))
-    heading_size = int(preferences.get('HEADING_SIZE', 24))
+    return data_list
 
-    slide_master = prs.slide_master
-    slide_layout = slide_master.slide_layouts[display_option]
-    slide = prs.slides.add_slide(slide_layout)
+def parse_slide_numbers(filename):
+    with open(filename, 'r') as file:
+        slide_numbers = file.read()
 
-    # Check if the layout has a title placeholder
-    has_title_placeholder = hasattr(slide, "placeholders") and len(slide.placeholders) > 0
-    if has_title_placeholder:
-        # Customize font size and font for title
-        title_shape = slide.shapes.title
-        title_shape.text = data['name']
-        title_shape.text_frame.paragraphs[0].font.size = Pt(heading_size)
-        title_shape.text_frame.paragraphs[0].font.name = heading_font
-    else:
-        # No title placeholder, set the title text directly on the slide
-        slide.shapes.title.text = data['name']
-        slide.shapes.title.text_frame.paragraphs[0].font.size = Pt(heading_size)
-        slide.shapes.title.text_frame.paragraphs[0].font.name = heading_font
+    # Split slide numbers using comma or dash as separators
+    ids = []
+    for item in slide_numbers.split(','):
+        if '-' in item:
+            start, end = map(int, item.split('-'))
+            ids.extend(range(start, end + 1))
+        else:
+            ids.append(int(item))
 
-    # Find the content placeholder shape on the slide
-    content_shape = None
-    for shape in slide.shapes:
-        if shape.has_text_frame and shape != title_shape:
-            content_shape = shape
-            break
+    return ids
 
-    if content_shape:
-        content_text = f"Description: {data['description']}\n"
-        content_text += f"Did You Know: {data.get('did_you_know', '')}\n"
-        content_text += f"Category: {data.get('category', '')}\n"
-        content_text += f"Type: {data.get('type', '')}\n"
-        content_text += f"State Name: {data.get('state_name', '')}\n"
-        content_text += f"Key Words: {data.get('key_words', '')}\n"
-        content_text += f"Image URL: {data.get('image_url', '')}\n"
-        content_text += f"Status: {data.get('status', '')}\n"
-        content_text += f"Notes: {data.get('notes', '')}\n"
-        content_text += f"Book: {data.get('book', '')}\n"
-        content_shape.text = content_text
 
-        # Apply font properties to all paragraphs in content text
-        for paragraph in content_shape.text_frame.paragraphs:
-            paragraph.font.size = Pt(text_size)
-            paragraph.font.name = text_font
-
-     # Add the image to the content placeholder on the slide
-    image_filename = data.get('image_url', '')
-    if image_filename:
-        image_path = os.path.join(os.path.dirname(__file__), image_filename)
-
-        # Set the desired width and height of the image (e.g., Inches(4) and Inches(3))
-        image_width = Inches(5)
-        image_height = Inches(8)
-
-        left = Inches(1)
-        top = Inches(2)
-        pic = slide.shapes.add_picture(image_path, left, top, width=image_width, height=image_height)
-
-def read_preferences_from_file(file_path):
+def read_preferences(filename):
     preferences = {}
-    with open(file_path, 'r') as file:
+    with open(filename, 'r') as file:
         for line in file:
-            key, value = line.strip().split('=')
-            preferences[key.strip()] = value.strip()
+            key, value = line.strip().split(' = ')
+            key = key.strip().lower()  # Convert the key to lowercase
+            if value.isdigit():
+                value = int(value)
+            elif value.startswith('"') and value.endswith('"'):
+                value = value[1:-1]
+            preferences[key] = value
+            print(f"Loaded Preference: {key} -> {value}")  # Debug print statement to see why not working
     return preferences
 
-# Function to handle numbers with dashes
-def expand_ranges(ids_str):
-    expanded_ids = []
-    for part in ids_str.split(','):
-        part = part.strip()
-        if '-' in part:
-            start, end = map(int, part.split('-'))
-            expanded_ids.extend(range(start, end + 1))
+
+def find_content_placeholder_index(slide_layout):
+    for idx, shape in enumerate(slide_layout.placeholders):
+        if shape.placeholder_format.idx == 1:
+            # Placeholder at index 1 corresponds to the content placeholder in slide layout 5.
+            return idx
+    return None
+
+def create_pptx_and_save(fetched_data_list, preferences):
+    # Read preferences
+    
+
+    # Initialize the presentation
+    presentation = Presentation()
+
+    # Loop through each data and add slides accordingly
+    for data in fetched_data_list:
+        # Add a content slide (layout 5) to display the JSON data
+        content_slide_layout = presentation.slide_layouts[3]
+        content_slide = presentation.slides.add_slide(content_slide_layout)
+        
+        # Set the name as the title at the top of the slide
+        title_shape = content_slide.shapes.title
+        title_shape.text = data['name']
+
+        # Find the index of the content placeholder in the layout
+        content_placeholder_idx = find_content_placeholder_index(content_slide_layout)
+        if content_placeholder_idx is not None:
+            content_box = content_slide.placeholders[content_placeholder_idx]
+
+            # Add the description and did_you_know to the content box text
+            content_box.text = f"Description: {data['description']}\n" \
+                              f"Did you know: {data['did_you_know']}"
+
+        # Load the image from the file and add it to the slide
+        if 'image_path' in data and data['image_path']:
+            image_path = data['image_path']
+
+            left_inch = Inches(4.5)  # Left position of the image
+            top_inch = Inches(2)   # Top position of the image
+            width_inch = Inches(4.5)  # Width of the image
+            height_inch = Inches(3.5)  # Height of the image
+
+            # Add the image to the slide using the Image class
+            content_slide.shapes.add_picture(image_path, left_inch, top_inch, width_inch, height_inch)
+            
+    # Save the PowerPoint presentation to a file
+    output_filename = "api.pptx"
+    presentation.save(output_filename)
+
+    print(f"PowerPoint presentation '{output_filename}' created successfully.")
+    
+
+if __name__ == "__main__":
+    slide_numbers_file = "slide_numbers.txt"
+    preferences_file = "preferences.txt"
+
+    ids = parse_slide_numbers(slide_numbers_file)
+    preferences = read_preferences(preferences_file)
+    
+    print("Preferences Dictionary:", preferences)  # Debug statement
+
+    if ids:
+        fetched_data_list = fetch_data_from_api(ids)
+        if fetched_data_list:
+            create_pptx_and_save(fetched_data_list, preferences)
         else:
-            expanded_ids.append(int(part))
-    return expanded_ids
-
-def main():
-    prs = Presentation()
-    prs.slide_width = Inches(8)
-    prs.slide_height = Inches(11)
-
-    # Read preferences from 'preferences.txt' file
-    preferences_file_path = 'preferences.txt'
-    preferences = read_preferences_from_file(preferences_file_path)
-
-    # Read the ID numbers from 'slide_numbers.txt' file
-    with open('slide_numbers.txt', 'r') as file:
-        ids_str = file.read()
-
-    # Expand ranges and convert comma-separated numbers into a list of integers
-    ids = expand_ranges(ids_str)
-
-    for id in ids:
-       data = fetch_data_from_api(id)
-       if data:
-            create_slide(prs, data, preferences)
-
+            print("Failed to fetch data from the API.")
+    else:
+        print("No valid slide numbers found in the file.")
     prs.save("api.pptx")
     print("PowerPoint file 'api.pptx' created successfully.")
 
