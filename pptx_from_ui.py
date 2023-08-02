@@ -362,7 +362,7 @@ if(methods == "Web"):
                     titleBox = slide.shapes.add_textbox(pptx.util.Inches(1.5), pptx.util.Inches(2),width=pptx.util.Inches(3), height=pptx.util.Inches(2))
                     titleBoxtf = titleBox.text_frame
                     title = titleBoxtf.add_paragraph()
-                    title.text = "Project abcd "
+                    title.text = "PROJECT ABCD"
                     title.font.size = Pt(50)
                     title.font.name = titleFont
                 slide = prs.slides.add_slide(slide_layout)
@@ -464,13 +464,12 @@ if(methods == "Web"):
                     titleBox = slide1.shapes.add_textbox(pptx.util.Inches(1.5), pptx.util.Inches(4.5),width=pptx.util.Inches(5), height=pptx.util.Inches(2))
                     titleBoxtf = titleBox.text_frame
                     title = titleBoxtf.add_paragraph()
-                    title.text = "Project abcd "
+                    title.text = "PROJECT ABCD"
                     title.font.size = Pt(60)
                     title.font.name = titleFont
                 slide = prs.slides.add_slide(slide_layout)
                 #places the picture to cover the whole slide
-                pictureHolder = prs.slides[pictureSlide].shapes
-                pictureHolder.add_picture(basename(printImage), pptx.util.Inches(0), pptx.util.Inches(0),width=pptx.util.Inches(8), height=pptx.util.Inches(11))
+                slide.shapes.add_picture(basename(printImage), pptx.util.Inches(0), pptx.util.Inches(0),width=pptx.util.Inches(8), height=pptx.util.Inches(11))
                 #creates next slide
                 slide2 = prs.slides.add_slide(slide_layout)
                 #places the logo on the slide
@@ -480,14 +479,14 @@ if(methods == "Web"):
                 slide_id.text =str(value)
                 logoHolder = slide.shapes.add_picture(basename(printLogo), pptx.util.Inches(7), pptx.util.Inches(10),width=pptx.util.Inches(1), height=pptx.util.Inches(1))
                 #places title on the slide
-                titleBox = slide.shapes.add_textbox(pptx.util.Inches(2), pptx.util.Inches(.5), width=pptx.util.Inches(4),height=pptx.util.Inches(1))
+                titleBox = slide2.shapes.add_textbox(pptx.util.Inches(2), pptx.util.Inches(.5), width=pptx.util.Inches(4),height=pptx.util.Inches(1))
                 titleBoxtf = titleBox.text_frame
                 title = titleBoxtf.add_paragraph()
                 title.text = printName
                 title.font.size = Pt(titleSize)
                 title.font.name = titleFont
                 #creates textbox for description and fun fact
-                contentBox = slide.shapes.add_textbox(pptx.util.Inches(1), pptx.util.Inches(2), width=pptx.util.Inches(6),height=pptx.util.Inches(7))
+                contentBox = slide2.shapes.add_textbox(pptx.util.Inches(1), pptx.util.Inches(2), width=pptx.util.Inches(6),height=pptx.util.Inches(7))
                 contentBoxtf = contentBox.text_frame
                 contentBoxtf.word_wrap = True
                 descriptionTitle = contentBoxtf.add_paragraph()
@@ -1090,8 +1089,7 @@ elif(methods == "Database"):
                     title.font.name = titleFont
                     title.font.size = Pt(titleSize)
                     title.font.name = titleFont
-                    title.text = (data[value][1])
-                    
+                    title.text = (data[value][1])               
                     contentBoxtf = contentBox.text_frame
                     contentBoxtf.word_wrap = True
                     descriptionTitle = contentBoxtf.add_paragraph()
@@ -1111,20 +1109,16 @@ elif(methods == "Database"):
                     FunFactParagraph = contentBoxtf.add_paragraph()
                     FunFactParagraph.font.name = textFont
                     FunFactParagraph.font.size = Pt(textSize)
-                    FunFactParagraph.text = (data[value][3])
-                    
+                    FunFactParagraph.text = (data[value][3])                  
                     image_url = data[value][8]  
                     if image_url:
                         image_path = os.path.basename(image_url)
                         slide.shapes.add_picture(image_path, pptx.util.Inches(0), pptx.util.Inches(0),width=pptx.util.Inches(8), height=pptx.util.Inches(11))
 
-            if(slideOption == 5 ):
-                               
-                    slide = prs.slides.add_slide(prs.slide_layouts[6]) 
-                    
+            if(slideOption == 5 ):               
+                    slide = prs.slides.add_slide(prs.slide_layouts[6])   
                     prs.slide_width = pptx.util.Inches(11)
-                    prs.slide_height = pptx.util.Inches(8)        
-                    
+                    prs.slide_height = pptx.util.Inches(8)                
                     slideId = slide.shapes.add_textbox(pptx.util.Inches(7), pptx.util.Inches(10), width = pptx.util.Inches(1), height = pptx.util.Inches(1))                       
                     slideIdf = slideId.text_frame
                     slide_id =slideIdf.add_paragraph()
@@ -1137,8 +1131,7 @@ elif(methods == "Database"):
                     title.font.name = titleFont
                     title.font.size = Pt(titleSize)
                     title.font.name = titleFont
-                    title.text =(data[value][1]) 
-                    
+                    title.text =(data[value][1])        
                     contentBoxtf = contentBox.text_frame
                     contentBoxtf.word_wrap = True
                     descriptionTitle = contentBoxtf.add_paragraph()
@@ -1167,9 +1160,7 @@ elif(methods == "Database"):
                     if image_url:
                         image_path = os.path.basename(image_url)
                         slide.shapes.add_picture(image_path, pptx.util.Inches(1),pptx.util.Inches(1),width = pptx.util.Inches(4), height = pptx.util.Inches(5))
-       
-                                                                               
-            
+
         test = output +".pptx"
         prs.save(test)
         return test
