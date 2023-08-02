@@ -26,7 +26,7 @@ text_box =tk.Label(window, textvariable=label_text).grid(row=1,column=1)
 
 text_value = tk.Text(window,height=5, width= 20)
 text_value.grid(row=1,column=2)
-filevalue = "26, 27, 28, 29, 30, 39, 50, 52, 53, 110, 111, 112, 116, 196, 206, 262, 265, 275, 276, 314, 317, 318, 319, 320, 321, 322, 324, 325, 326, 327, 328, 329, 401, 405, 406, 407, 409, 410, 411, 412, 413, 415, 418, 419, 422, 423, 424, 425, 426, 427, 428, 431, 432, 433, 434, 437, 438, 439, 440, 441, 442, 443, 444, 445, 462, 463, 468, 469, 470, 471, 472, 475, 476, 477, 478, 483, 484, 491, 492, 493, 502, 506, 520, 542, 544, 549, 568, 574, 578, 581, 582, 601, 605, 611, 626, 627, 631, 649, 654, 655, 658, 659, 660, 662, 664, 665, 666, 667, 670, 671, 672, 674, 678, 681, 682, 683, 684, 686, 688, 689, 690, 691, 693, 695, 696, 697, 698, 699, 700"
+filevalue = "26, 27, 28"
 text_value.insert("1.0", filevalue)
 #label for preferences
 label_text_1 = tk.StringVar()
@@ -321,15 +321,15 @@ if(methods == "Web"):
                 title.font.name = titleFont
                 title.font.size = Pt(titleSize)
                 
-                slideId = slide.shapes.add_textbox(pptx.util.Inches(6.5), pptx.util.Inches(10.25), width = pptx.util.Inches(1), height = pptx.util.Inches(1))                       
+                slideId = slide.shapes.add_textbox(pptx.util.Inches(6), pptx.util.Inches(10), width = pptx.util.Inches(1), height = pptx.util.Inches(1))                       
                 slideIdf = slideId.text_frame
                 slide_id =slideIdf.add_paragraph()
                 slide_id.text =str(value)
                 #places the picture on the slide
                 pictureHolder = prs.slides[i].shapes
-                pictureHolder.add_picture(basename(printImage), pptx.util.Inches(2.5),pptx.util.Inches(2),width = pptx.util.Inches(3), height = pptx.util.Inches(4))
+                pictureHolder.add_picture(basename(printImage), pptx.util.Inches(2.5),pptx.util.Inches(1.25),width = pptx.util.Inches(3), height = pptx.util.Inches(4))
                 #creates a textbox for the description and fun fact
-                contentBox = slide.shapes.add_textbox(pptx.util.Inches(1), pptx.util.Inches(6), width = pptx.util.Inches(6), height = pptx.util.Inches(5))
+                contentBox = slide.shapes.add_textbox(pptx.util.Inches(1), pptx.util.Inches(4.75), width = pptx.util.Inches(6), height = pptx.util.Inches(5))
                 contentBoxtf = contentBox.text_frame
                 contentBoxtf.word_wrap = True
                 descriptionTitle = contentBoxtf.add_paragraph()
@@ -414,8 +414,8 @@ if(methods == "Web"):
                 prs.slide_height = pptx.util.Inches(11)
                 slide2 = prs.slides.add_slide(slide_layout)
                 #places picture to cover whole slide
-                pictureHolder = prs.slides[pictureSlide].shapes
-                pictureHolder.add_picture(basename(printImage), pptx.util.Inches(0), pptx.util.Inches(2),width=pptx.util.Inches(4), height=pptx.util.Inches(6))
+                
+                slide2.shapes.add_picture(basename(printImage), pptx.util.Inches(0), pptx.util.Inches(2),width=pptx.util.Inches(4), height=pptx.util.Inches(6))
                 
                 slideId = slide2.shapes.add_textbox(pptx.util.Inches(7), pptx.util.Inches(10), width = pptx.util.Inches(1), height = pptx.util.Inches(1))                       
                 slideIdf = slideId.text_frame
